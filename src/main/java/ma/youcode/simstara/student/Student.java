@@ -23,7 +23,7 @@ public class Student {
     }
 
     enum Gender {
-        Male, Female, Robot
+        MALE, FEMALE, ROBOT
     }
 
     public UUID getStudentId() {

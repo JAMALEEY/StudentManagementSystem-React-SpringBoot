@@ -6,9 +6,13 @@ import {
   Avatar,
   Spin
 } from 'antd';
+import Footer from "./Footer";
 import { LoadingOutlined } from '@ant-design/icons';
 import Container from "./Container";
 const getIndicatorIcon = () =><LoadingOutlined style={{ fontSize: 144, color: 'gray' }} /> 
+const color = '#f56a00';
+const gap = 4;
+
 
 
 class App extends Component {
@@ -55,8 +59,8 @@ class App extends Component {
           title: '',
           key: 'avatar',
           render: (text, student) => (
-            <Avatar size='large'>
-                {`${student.firstName.charAt(0).toUpperCase} ${student.lastName.charAt(0).toUpperCase}`}
+            <Avatar style={{ backgroundColor: color, verticalAlign: 'middle' }} size="large" gap={gap}>
+                {`${student.firstName[0]}${student.lastName[0]}`}
             </Avatar>
         )
       },
@@ -71,6 +75,17 @@ class App extends Component {
           key: 'firstName'
         },
         {
+          title: 'Last Name',
+          dataIndex: 'lastName',
+          key: 'lastName'
+        },
+        {
+          title: 'E-mail',
+          dataIndex: 'email',
+          key: 'email'
+        },
+        
+        {
           title: 'Gender',
           dataIndex: 'gender',
           key: 'gender'
@@ -84,6 +99,7 @@ class App extends Component {
           columns = { columns }
           pagination = {false}
           rowKey = 'studentId' />
+          <Footer numberOfStudents={students.length}></Footer>
         </Container>
           );
 
