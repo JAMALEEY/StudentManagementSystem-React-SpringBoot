@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class SimstaraApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SimstaraApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(SimstaraApplication.class, args);
+    }
 
 }
