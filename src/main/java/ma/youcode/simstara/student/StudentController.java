@@ -1,11 +1,12 @@
 package ma.youcode.simstara.student;
 
+import ma.youcode.simstara.exception.ApiRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("students")
@@ -19,7 +20,19 @@ public class StudentController {
 
     @GetMapping
     public List<Student> getAllStudents() {
+//        throw new IllegalStateException("Oops cannot get all students");
+//        throw new ApiRequestException("Oops Something went wrong ... we cannot get students");
         return studentService.getAllStudents();
+    }
+
+    @GetMapping(path = "{studentId}/courses")
+    public List<StudentCourse> getAllCoursesForStudent(
+            @PathVariable("studentId") UUID studentId) {
+        return studentService.getAllCoursesForStudent(studentId);
+    }
+    @PostMapping
+    public void addNewStudent (@RequestBody @Valid Student student){
+         studentService.addNewStudent(student);
     }
 
 
