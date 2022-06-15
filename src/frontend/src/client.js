@@ -1,16 +1,19 @@
 import fetch from 'unfetch';
 
-// error handling :
+// response error handling :
 const checkStatus = response => {
     if (response.ok) {
         return response;
     } else {
         // reject the promise by catching it in the object error (let error)
+        // I choose let since I want to modify on the error variable while catching the promise
         let error = new Error(response.statusText);
         error.response = response;
+        // now we have the access on the response (having on it the actual error so that I can do logic on it after ...)
         response.json().then(e => {
             error.error = e;
         });
+        // I return the promise
         return Promise.reject(error);
     }
 }
@@ -18,6 +21,8 @@ const checkStatus = response => {
 
 
 export const getAllStudents = () => 
+// when we perform the fetch (of the students) actually by using fetch we use a promise 
+ // the reason why we pass the checkStatus that it is based on promise logic ...
 fetch('api/students').then(checkStatus);
 
 export const addNewStudent = student =>
