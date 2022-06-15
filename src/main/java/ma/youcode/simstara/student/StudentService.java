@@ -4,6 +4,7 @@ import ma.youcode.simstara.EmailValidator;
 import ma.youcode.simstara.exception.ApiRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +30,6 @@ public class StudentService {
 
     void addNewStudent(Student student) {
         addNewStudent(null, student);
-
     }
 
     void addNewStudent(UUID studentId, Student student) {
@@ -54,7 +54,9 @@ public class StudentService {
     }
 
     public void updateStudent(UUID studentId, Student student) {
-        Optional.ofNullable(student.getEmail())
+        Optional.ofNullable(
+                        student.getEmail()
+                )
                 .ifPresent(email -> {
                     boolean taken = studentDataAccessObject.selectExistsEmail(studentId, email);
                     if (!taken) {
@@ -63,5 +65,19 @@ public class StudentService {
                         throw new IllegalStateException("Email already in use: " + student.getEmail());
                     }
                 });
+
+        Optional.ofNullable(student.getFirstName())
+                .filter(fistName -> !StringUtils.isEmpty(fistName))
+                .map(StringUtils::capitalize)
+                .ifPresent(firstName -> studentDataAccessObject.updateFirstName(studentId, firstName));
+
+        Optional.ofNullable(student.getLastName())
+                .filter(lastName -> !StringUtils.isEmpty(lastName))
+                .map(StringUtils::capitalize)
+                .ifPresent(lastName -> studentDataAccessObject.updateLastName(studentId, lastName));
+
+                });
+
+
     }
 }
