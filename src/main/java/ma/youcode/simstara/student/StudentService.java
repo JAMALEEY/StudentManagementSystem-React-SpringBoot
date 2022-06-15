@@ -17,8 +17,6 @@ public class StudentService {
     private final EmailValidator emailValidator;
 
 
-
-
     @Autowired
     public StudentService(StudentDataAccessObject studentDataAccessObject, EmailValidator emailValidator) {
         this.studentDataAccessObject = studentDataAccessObject;
@@ -42,7 +40,7 @@ public class StudentService {
             throw new ApiRequestException(student.getEmail() + " is not valid please respect the email pattern");
         }
 //         SERVER SIDE EMAIL CONTROL NOT TAKEN
-        if (studentDataAccessObject.isEmailTaken(student.getEmail())){
+        if (studentDataAccessObject.isEmailTaken(student.getEmail())) {
             throw new ApiRequestException(student.getEmail() + " is already taken (bad UX)");
         }
 
@@ -53,5 +51,17 @@ public class StudentService {
 
     public List<StudentCourse> getAllCoursesForStudent(UUID studentId) {
         return studentDataAccessObject.selectAllStudentCourses(studentId);
+    }
+
+    public void updateStudent(UUID studentId, Student student) {
+        Optional.ofNullable(student.getEmail())
+                .ifPresent(email -> {
+                    boolean taken = studentDataAccessObject.selectExistsEmail(studentId, email);
+                    if (!taken) {
+                        studentDataAccessObject.updateEmail(studentId, email);
+                    } else {
+                        throw new IllegalStateException("Email already in use: " + student.getEmail());
+                    }
+                });
     }
 }

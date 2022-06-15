@@ -1,104 +1,41 @@
+import React, {Component} from 'react';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
-} from "@ant-design/icons";
-import {
-  Layout,
-  Menu,
-  Table,
-  Avatar,
-  Spin,
-  Icon,
-  Modal,
-  Empty,
-  PageHeader,
-  Button,
-  notification,
-  Popconfirm,
-} from "antd";
-import React, { Component, useState } from "react";
-import AddStudentForm from "./forms/AddStudentForm";
-import EditStudentForm from "./forms/EditStudentForm";
-import { errorNotification } from "./Notification";
+  LoadingOutlined
+} from '@ant-design/icons';
+import { Layout, Menu, Modal, PageHeader, notification} from 'antd';
+import Data from './Data';
+import AddStudentForm from './forms/AddStudentForm';
+import EditStudentForm from './forms/EditStudentForm';
+import { errorNotification } from './Notification';
+import Footer from './Footer';
+import './Sidebar.css';
+import Container from './Container';
 
-import "./Sidebar.css";
-import Footer from "./Footer";
-import Data from "./Data";
-import Container from "./Container";
-import { getAllStudents, updateStudent, deleteStudent } from "./client";
+
 
 const { Header, Sider, Content } = Layout;
-// const [collapsed, setCollapsed] = useState(false);
+//  THE LOADING FROM ANTD INSTANTIATION
+const getIndicatorIcon = () =><LoadingOutlined style={{ fontSize: 144, color: 'gray' }} /> 
 
 class Sidebar extends Component {
-  state = {
-    students: [],
-    isFetching: false,
-    selectedStudent: {},
-    isAddStudentModalVisisble: false,
-    isEditStudentModalVisible: false,
-    collapsed: false,
-    setCollapsed: false,
-  };
 
-  openAddStudentModel = () =>
-  this.setState({
-    isAddStudentModalVisible: true,
-  });
+ 
+    state = {
+      collapsed: false
+    };
+
+  
+
 
   render() {
-    const {
-      students,
-      isFetching,
-      isAddStudentModalVisisble,
-      collapsed,
-      setCollapsed,
-    } = this.state;
-    
-    const commonElements = () => (
-      <div>
-        <Modal
-          title="Add new student"
-          visible={isAddStudentModalVisisble}
-          onOk={this.closeAddStudentModal}
-          onCancel={this.closeAddStudentModal}
-          width={1000}
-        >
-          <AddStudentForm
-            onSuccess={() => {
-              this.closeAddStudentModal();
-              this.fetchStudents();
-            }}
-            onFailure={(error) => {
-              const message = error.error.message;
-              const description = error.error.httpStatus;
-              errorNotification(message, description);
-            }}
-          />
-        </Modal>
+    const { collapsed } = this.state;
 
-        <Modal
-          title="Edit"
-          visible={this.state.isEditStudentModalVisible}
-          onOk={this.closeEditStudentModal}
-          onCancel={this.closeEditStudentModal}
-          width={1000}
-        >
-          <PageHeader title={`${this.state.selectedStudent.studentId}`} />
 
-          <EditStudentForm
-            initialValues={this.state.selectedStudent}
-            submitter={this.updateStudentFormSubmitter}
-          />
-        </Modal>
-
-        <Footer handleAddStudentClickEvent={this.openAddStudentModel}> </Footer>
-
-      </div>
-    );
 
     return (
       <Layout>
@@ -128,27 +65,22 @@ class Sidebar extends Component {
           />
         </Sider>
         <Layout className="site-layout">
-          <Header className="site-layout-background" style={{ padding: 0 }}>
-            {React.createElement(
-              collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-              {
-                className: "trigger",
-                onClick: () => setCollapsed(!collapsed),
-              }
-            )}
-          </Header>
+        <Header className="site-layout-background" style={{ padding: 0 }}>
+          {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+            className: 'trigger',
+            onClick: () => {
+              this.setState({
+                collapsed: !collapsed
+              });
+            }, 
+          })}
+        </Header>
 
-          <Content
-            className="site-layout-background"
-            // style={{
-            //   margin: '24px 16px',
-            //   padding: 24,
-            //   minHeight: 280,
-            // }}
-          >
-            <Data></Data>
-            {/* ENSURE THE MODAL LOGIC */}
-            {commonElements()}
+          <Content className="site-layout-background">
+            <Data>
+
+            </Data>
+
           </Content>
         </Layout>
       </Layout>

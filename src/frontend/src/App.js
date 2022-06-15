@@ -10,51 +10,7 @@ import Sidebar from "./Sidebar";
 
 
 class App extends Component {
-  // adding the state
-  // state = {
-  //   students: [],
-  //   isFetching: false,
-  //   isAddStudentModalVisible: false,
-  // };
-
-  // componentDidMount() {
-  //   this.fetchStudents();
-  // }
-
-  // openAddStudentModel = () =>
-  //   this.setState({
-  //     isAddStudentModalVisible: true,
-  //   });
-
-  // closeAddStudentModel = () =>
-  //   this.setState({
-  //     isAddStudentModalVisible: false,
-  //   });
-
-  // fetchStudents = () => {
-  //   this.setState({
-  //     isFetching: true,
-  //   });
-  //   getAllStudents()
-  //     .then((res) =>
-  //       res.json().then((students) => {
-  //         this.setState({
-  //           students,
-  //           isFetching: false,
-  //         });
-  //       })
-  //     )
-  //     .catch((error) => {
-  //       const message = error.message;
-  //       const description = error.error.message;
-
-  //       errorNotification(message, description);
-  //       this.setState({
-  //         isFetching: false,
-  //       });
-  //     });
-  // };
-
+ 
   render() {
     return (
       <div>

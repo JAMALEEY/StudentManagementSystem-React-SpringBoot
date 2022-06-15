@@ -2,7 +2,8 @@ import React,  {Component} from 'react';
 import { Formik } from 'formik';
 import { Input, Tag, Button } from 'antd';
 
-export default class EditUserForm extends Component {   
+
+class EditUserForm extends Component {   
     render () {
         const { submitter, initialValues } = this.props;
         return (
@@ -81,3 +82,5 @@ export default class EditUserForm extends Component {
       )
     }
 }
+
+export default EditUserForm;

@@ -29,8 +29,8 @@ const AddStudentForm = (props) => (
 
             if (!values.gender) {
                 errors.gender = 'Gender Required';
-            } else if (!['MALE', 'male', 'FEMALE', 'female'].includes(values.gender)) {
-                errors.gender = 'Gender must be (MALE, male, FEMALE, female)';
+            } else if (!['MALE', 'male', 'FEMALE', 'female','ROBOT','robot' ].includes(values.gender)) {
+                errors.gender = 'Gender must be (MALE, male, FEMALE, female, Robot, ROBOT ...)';
             }
             
             return errors;
@@ -41,8 +41,8 @@ const AddStudentForm = (props) => (
             addNewStudent(student).then(() => {
                 props.onSuccess();
             })
-            .catch(err => {
-                props.onFailure(err);
+            .catch(error => {
+                props.onFailure(error);
             })
             .finally(() => {
                 setSubmitting(false);
