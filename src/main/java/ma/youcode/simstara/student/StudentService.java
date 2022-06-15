@@ -76,8 +76,13 @@ public class StudentService {
                 .map(StringUtils::capitalize)
                 .ifPresent(lastName -> studentDataAccessObject.updateLastName(studentId, lastName));
 
-                });
-
-
     }
+
+    ;
+
+    void deleteStudent(UUID studentId) {
+        studentDataAccessObject.deleteStudentById(studentId);
+    }
+
+
 }
