@@ -1,0 +1,11 @@
+server:
+  servlet:
+    context-path: /api
+
+app:
+  datasource:
+    jdbc-url: jdbc:postgresql://localhost:5432/simstaradb
+    username: postgres
+    password: postgres
+#    available conncetion all time is 30
+    pool-size: 30
