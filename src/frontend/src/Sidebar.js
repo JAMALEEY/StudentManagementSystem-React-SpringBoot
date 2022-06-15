@@ -9,7 +9,7 @@ import {
   import React, { useState } from 'react';
   import "./Sidebar.css";
   import Footer from './Footer';
-  
+import Data from './Data';  
   const { Header, Sider, Content } = Layout;
   
   const Sidebar = () => {
@@ -51,13 +51,18 @@ import {
             </Header>
             <Content
               className="site-layout-background"
-              style={{
-                margin: '24px 16px',
-                padding: 24,
-                minHeight: 280,
-              }}
+              // style={{
+              //   margin: '24px 16px',
+              //   padding: 24,
+              //   minHeight: 280,
+              // }}
             >
-              Content
+              <Data>
+
+              </Data>
+              <Footer>
+
+              </Footer>
             </Content>
           </Layout>
         </Layout>

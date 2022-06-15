@@ -14,7 +14,7 @@ const getIndicatorIcon = () => (
 const color = "#f56a00";
 const gap = 4;
 
-class Content extends Component {
+class Data extends Component {
   // adding the state
   state = {
     students: [],
@@ -220,7 +220,7 @@ class Content extends Component {
         
         <Container>
           <Table
-            style={{ marginBottom: "100px", padding: "100px" }}
+            style={{ paddingLeft: "0px" }}
             dataSource={students}
             columns={columns}
             pagination={false}
@@ -235,4 +235,4 @@ class Content extends Component {
       }
   }
 }
-      export default Content;
+      export default Data;
