@@ -3,7 +3,6 @@ import "./App.css";
 import { getAllStudents } from "./client";
 import AddStudentForm from "./forms/AddStudentForm";
 import { Table, Avatar, Spin, Modal, Empty, Button } from "antd";
-import Footer from "./Footer";
 import { LoadingOutlined } from "@ant-design/icons";
 import Container from "./Container";
 import { errorNotification } from "./Notification";
@@ -62,10 +61,10 @@ class App extends Component {
   };
 
   render() {
-    
     const { students, isFetching, isAddStudentModalVisible } = this.state;
     const commonElements = () => (
       <div>
+        <Sidebar>
         <Modal
           title="Add new student"
           visible={isAddStudentModalVisible}
@@ -87,151 +86,9 @@ class App extends Component {
             }}
           />
         </Modal>
-        <Footer
-          numberOfStudents={students.length}
-          handleAddStudentClickEvent={this.openAddStudentModel}
-        ></Footer>
+        </Sidebar>
       </div>
     );
-    if (isFetching) {
-      return (
-        <Container>
-          <Spin indicator={getIndicatorIcon()} />
-        </Container>
-      );
-    }
-    if (students && students.length) {
-      // const precolumns = [
-      //   {
-      //     title: "total",
-      //     key: "total",
-      //     render: () => (
-      //       <div>toto</div>
-
-      //       { ? (
-      //         <Avatar
-      //           style={{ backgroundColor: "ffffff", marginRight: "19px" }}
-      //           size="large"
-      //         >
-      //           {props.numberOfStudents}
-      //         </Avatar>
-      //       ) : null}
-      //     ),
-      //   },
-   
-      // ];
-// if(props.numberOfStudents !== undefined) {
-  
-
-
-  console.log(students.length);
-      const columns = [
-        {
-          render: () => (
-            <Avatar
-          style={{ backgroundColor: "ffffff", marginRight: "19px" }}
-          size="large"
-        >
-          {students.length}
-        </Avatar>
-          ),
-          // title: "Other",
-          title:  <Button type="dashed" shape="round" > Total students  :  {students.length} </Button> ,
-
-          children: [
-            {
-              
-              title: "Icon",
-              align: "center",
-              key: "avatar",
-              render: (text, student) => (
-                <Avatar
-                  style={{ backgroundColor: color, verticalAlign: "middle" }}
-                  size="large"
-                  gap={gap}
-                >
-                  {`${student.firstName[0]}${student.lastName[0]}`}
-                </Avatar>
-              ),
-            },
-            {
-              title: "Student Id",
-              dataIndex: "studentId",
-              key: "studentId",
-              align:"center"
-            },
-            {
-              title: "First Name",
-              dataIndex: "firstName",
-              key: "firstName",
-              align:"center"
-
-            },
-            {
-              title: "Last Name",
-              dataIndex: "lastName",
-              key: "lastName",
-              align:"center"
-
-            },
-            {
-              title: "E-mail",
-              dataIndex: "email",
-              key: "email",
-              align:"center"
-
-            },
-
-            {
-              title: "Gender",
-              dataIndex: "gender",
-              key: "gender",
-              align:"center"
-
-            },
-
-            {
-              title: "Action",
-              align:"center",
-              key: "action",
-              
-              render: (text, student) => (
-                <>
-                  <Button
-                    shape="round"
-                    type="primary"
-                    style={{ backgroundColor: "#40c78a" }}
-                  >
-                    {/* {`${student.firstName[0]}${student.lastName[0]}`} */}
-                    Edit
-                  </Button>
-
-                  <Button shape="round" danger style={{ marginLeft: "20px" }}>
-                    {/* {`${student.firstName[0]}${student.lastName[0]}`} */}
-                    Delete
-                  </Button>
-                </>
-              ),
-            },
-          ],
-        },
-      ];
-
-      return (
-        
-        <Container>
-          <Table
-            style={{ marginBottom: "100px", padding: "100px" }}
-            dataSource={students}
-            columns={columns}
-            pagination={false}
-            rowKey="studentId"
-          />
-
-          {/* the add student component from the method helper called commonElements() */}
-          {commonElements()}
-        </Container>
-      );
 
       // return students.map(
       //   (student, index) => {
@@ -247,16 +104,15 @@ class App extends Component {
       //     </div>
       // )
       // }
-    }
+    
     // using empty from antd
     return (
-      <Container>
-        <Empty description={<h1>No Student found</h1>} />
-        {commonElements()}
-      </Container>
+      <div>
+      <Empty description={<h1>No Student found</h1>} />
+      {commonElements()}
+      </div>
     );
-  }
-  }
-// }
+}
+}
 
 export default App;
