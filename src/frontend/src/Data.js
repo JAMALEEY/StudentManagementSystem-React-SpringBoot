@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import Container from "./Container";
 import { Empty, Icon, Popconfirm, notification, Spin, Avatar, Button, Modal, PageHeader, Table } from "antd";
 import { LoadingOutlined } from '@ant-design/icons';
@@ -35,7 +35,11 @@ state = {
   openAddStudentModal = () => this.setState({isAddStudentModalVisisble: true})
   //  METHODS THAT RESIDES INSIDE THE MODAL :
   closeAddStudentModal = () => this.setState({isAddStudentModalVisisble: false})
-  openEditStudentModal = () => this.setState({ isEditStudentModalVisible: true })
+  openEditStudentModal = selectedStudent => {
+    this.setState({ isEditStudentModalVisible: true });
+    this.setState({ selectedStudent });
+
+  }
   closeEditStudentModal = () => this.setState({ isEditStudentModalVisible: false })
   openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
@@ -56,8 +60,9 @@ fetchStudents = () => {
     isFetching: true,
   });
   getAllStudents()
-    .then((res) =>
+  .then((res) =>
       res.json().then((students) => {
+        console.log(students);
         this.setState({
           students,
           isFetching: false,
@@ -74,30 +79,30 @@ fetchStudents = () => {
       });
     });
 };
-// editUser = selectedStudent => {
-//   console.log(selectedStudent.studentId);
-//   this.setState({ selectedStudent });
-  // this.setState({ isEditStudentModalVisible: true});
-// }
-  render() {
 
-    const { students, isFetching, isAddStudentModalVisisble, isEditStudentModalVisible } = this.state;
+updateStudentFormSubmitter = student => {
+  updateStudent(student.studentId, student).then(() => {
+    this.openNotificationWithIcon('success', 'Student updated', `${student.studentId} was updated`);
+    this.closeEditStudentModal();
+    this.fetchStudents();
+  }).catch(err => {
+    console.error(err.error);
+    this.openNotificationWithIcon('error', 'error', `(${err.error.status}) ${err.error.error}`);
+  });
+}
+render() {
+  const { students, isFetching, isAddStudentModalVisisble, isEditStudentModalVisible } = this.state;
 
-
-    
     const updateModal = () => (
-
       <div> 
       <Modal
-      
           title='Edit'
           visible={isEditStudentModalVisible}
           onOk={this.closeEditStudentModal}
           onCancel={this.closeEditStudentModal}
           width={1000} 
-          
           >
-          
+          <h1>You're editing the student with following id: </h1>
             <PageHeader title={`${this.state.selectedStudent.studentId}`}/>
       
             <EditStudentForm 
@@ -112,6 +117,8 @@ fetchStudents = () => {
 
     </div>
     )
+
+
 
     const commonElements = () => (
       <div>
@@ -225,7 +232,8 @@ fetchStudents = () => {
                     shape="round"
                     type="primary"
                     style={{ backgroundColor: "#40c78a" }}  
-                    onClick={() => this.updateModal()}                 >
+                    onClick={() => this.openEditStudentModal(student)}                  
+                  >
                     Edit
                   </Button>
                   <Button shape="round" danger style={{ marginLeft: "20px" }}>
@@ -249,9 +257,7 @@ fetchStudents = () => {
           rowKey="studentId"
         />
         {commonElements()}
-
         {updateModal()}
-        
       </Container>
     );
 
