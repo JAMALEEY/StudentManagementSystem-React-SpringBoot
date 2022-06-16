@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import Container from "./Container";
 import { Empty, Icon, Popconfirm, notification, Spin, Avatar, Button, Modal, PageHeader, Table } from "antd";
 import { LoadingOutlined } from '@ant-design/icons';
@@ -36,14 +36,18 @@ state = {
   //  METHODS THAT RESIDES INSIDE THE MODAL :
   closeAddStudentModal = () => this.setState({isAddStudentModalVisisble: false})
   openEditStudentModal = selectedStudent => {
-    this.setState({ isEditStudentModalVisible: true });
     this.setState({ selectedStudent });
+    this.setState({ isEditStudentModalVisible: true });
 
   }
   closeEditStudentModal = () => this.setState({ isEditStudentModalVisible: false })
   openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
-
+  lkod = () => {
+    this.closeEditStudentModal();
+    this.setState({selectedStudent: {}});
+    window.location.reload();
+  };
   
     // on init (on rendering the HTML I order the fetchStudents method to be invoked !)
     componentDidMount () {
@@ -90,6 +94,16 @@ updateStudentFormSubmitter = student => {
     this.openNotificationWithIcon('error', 'error', `(${err.error.status}) ${err.error.error}`);
   });
 }
+
+deleteStudent = studentId => {
+  deleteStudent(studentId).then(() => {
+    this.openNotificationWithIcon('success', 'Student deleted', `${studentId} was deleted`);
+    this.fetchStudents();
+  }).catch(err => {
+    this.openNotificationWithIcon('error', 'error', `(${err.error.status}) ${err.error.error}`);
+  });
+}
+
 render() {
   const { students, isFetching, isAddStudentModalVisisble, isEditStudentModalVisible } = this.state;
 
@@ -99,7 +113,7 @@ render() {
           title='Edit'
           visible={isEditStudentModalVisible}
           onOk={this.closeEditStudentModal}
-          onCancel={this.closeEditStudentModal}
+          onCancel={this.lkod}
           width={1000} 
           >
           <h1>You're editing the student with following id: </h1>
@@ -131,6 +145,7 @@ render() {
             {/* I call the AddstudentForm component */}
           <AddStudentForm 
             onSuccess={() => {
+              this.openNotificationWithIcon('Success', 'Student created');
               this.closeAddStudentModal(); 
               this.fetchStudents();
             }}
@@ -236,10 +251,17 @@ render() {
                   >
                     Edit
                   </Button>
+                  <Fragment>
+              <Popconfirm
+                              placement='topRight'
+                              title={`Are you sure to delete ${student.studentId}`} 
+                              onConfirm={() => this.deleteStudent(student.studentId)} okText='Yes' cancelText='No'
+                              onCancel={e => e.stopPropagation()}>
                   <Button shape="round" danger style={{ marginLeft: "20px" }}>
-                    {/* {`${student.firstName[0]}${student.lastName[0]}`} */}
                     Delete
                   </Button>
+                  </Popconfirm>
+                  </Fragment>
                 </>
               ),
             },
