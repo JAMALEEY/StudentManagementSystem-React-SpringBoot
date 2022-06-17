@@ -30,7 +30,7 @@ public class AdminDao {
         return jdbcTemplate.query(sql, mapAdminFomDb());
     }
 
-    String findByUserName(String username) {
+    Admin findByUserName(String username) {
         String sql = "" +
                 "SELECT " +
                 " admin_id, " +
@@ -43,7 +43,7 @@ public class AdminDao {
         return jdbcTemplate.queryForObject(
                 sql,
                 new Object[]{username},
-                (resultSet, i) -> resultSet.getString(username));
+                mapAdminFomDb());
     }
 
     private RowMapper<Admin> mapAdminFomDb() {
