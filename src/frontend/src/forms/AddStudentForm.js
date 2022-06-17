@@ -7,7 +7,7 @@ import { addNewStudent } from '../client';
 const inputBottomMargin = {marginBottom: '10px'};
 const tagStyle = {backgroundColor: '#f50', color: 'white', ...inputBottomMargin};
 
-const AddStudentForm = (props) => (
+export const AddStudentForm = (props) => (
    <Formik
         initialValues={{ firstName: '', lastName: '', email: '', gender: ''}}
         validate={values => {
@@ -39,7 +39,7 @@ const AddStudentForm = (props) => (
 
         onSubmit={(student, { setSubmitting }) => {
             addNewStudent(student).then(() => {
-                props.onSuccess();
+                props.onSuccess(student);
             })
             .catch(error => {
                 props.onFailure(error);
@@ -117,4 +117,3 @@ const AddStudentForm = (props) => (
     </Formik>
            )
 
-export default AddStudentForm;

@@ -19,6 +19,9 @@ const checkStatus = response => {
 }
 
 
+export const getStudentCourse = (studentId) =>
+fetch(`api/students/${studentId}/courses`).then(checkStatus);
+
 
 export const getAllStudents = () => 
 // when we perform the fetch (of the students) actually by using fetch we use a promise 
@@ -35,7 +38,7 @@ export const addNewStudent = student =>
         body: JSON.stringify(student)
     })
     .then(checkStatus);
-
+    
 
 export const updateStudent = (studentId, student) => 
 fetch(`api/students/${studentId}`, {
@@ -49,7 +52,8 @@ fetch(`api/students/${studentId}`, {
 
 export const deleteStudent = studentId =>
 fetch(`api/students/${studentId}`, {
-    method: 'DELETE'
+    method: 'DELETE',
+    
 })
 .then(checkStatus);
 
