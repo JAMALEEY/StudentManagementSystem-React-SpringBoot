@@ -1,15 +1,15 @@
 package ma.youcode.simstara.admin;
 
-public class LoginRequest {
+public class RegisterRequest {
     private String username;
     private String password;
 
-    public String getUserName() {
+    public String getUsername() {
         return username;
     }
 
-    public void setUserName(String userName) {
-        this.username = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -19,4 +19,5 @@ public class LoginRequest {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

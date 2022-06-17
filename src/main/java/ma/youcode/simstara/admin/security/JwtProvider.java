@@ -1,7 +1,8 @@
-package ma.youcode.simstara.admin;
+package ma.youcode.simstara.admin.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import ma.youcode.simstara.admin.AdminsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;

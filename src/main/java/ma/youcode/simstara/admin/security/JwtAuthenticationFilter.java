@@ -1,4 +1,4 @@
-package ma.youcode.simstara.admin;
+package ma.youcode.simstara.admin.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

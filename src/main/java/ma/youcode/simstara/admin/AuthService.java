@@ -1,16 +1,25 @@
 package ma.youcode.simstara.admin;
 
 
+import ma.youcode.simstara.admin.security.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
 @Service
 public class AuthService {
+
+
+    @Autowired
+    private AdminRepository adminRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -18,6 +27,20 @@ public class AuthService {
     @Autowired
     private JwtProvider jwtProvider;
 
+
+
+    public String encodePassword(String password){
+        return passwordEncoder.encode(password);
+    }
+
+
+    public void signup(RegisterRequest registerRequest) {
+        Admin admin = new Admin();
+        admin.setUsername(registerRequest.getUsername());
+        admin.setPassword(encodePassword(registerRequest.getPassword()));
+        adminRepository.save(admin);
+
+    }
 
 
     // authentication process logic using auth manager
@@ -34,6 +57,8 @@ public class AuthService {
         SecurityContextHolder.getContext().setAuthentication(authenticate);
         String authenticationToken = jwtProvider.generateToken(authenticate);
         return new AuthenticationResponse(authenticationToken, loginRequest.getUserName());
+
+
     }
 
 }

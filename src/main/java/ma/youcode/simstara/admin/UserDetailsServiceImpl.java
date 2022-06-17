@@ -12,20 +12,23 @@ import java.util.Collection;
 import java.util.Collections;
 
 @Service
+
 public class UserDetailsServiceImpl implements UserDetailsService {
+
     @Autowired
-    public AdminDao adminDao;
+public AdminRepository adminRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Admin admin = adminDao.findByUserName(username);
+        Admin admin = adminRepository.findByUserName(username).orElseThrow(
+                () -> new UsernameNotFoundException("no user found" + username)
+        );
         return new org.springframework.security.core.userdetails.User(admin.getUsername(),
                 admin.getPassword(),
                 true, true, true, true,
                 getAuthorities("ROLE_USER")
         );
     }
-
 
     private Collection<? extends GrantedAuthority> getAuthorities(String role_user) {
         return Collections.singletonList(
